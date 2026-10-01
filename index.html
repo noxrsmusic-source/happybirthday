@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Happy Birthday, Didi! 🎂💗</title>
+    <style>
+        /* ==========================================================================
+           1. CSS Custom Properties & Reset
+           ========================================================================== */
+        :root {
+            --color-bg-gradient-1: #fff0f5;
+            --color-bg-gradient-2: #ffe4e1;
+            --color-bg-gradient-3: #fce4ec;
+            --color-primary: #ff69b4;
+            --color-primary-dark: #d81b60;
+            --color-blush: #ffb6c1;
+            --color-rose: #ff85a2;
+            --color-lavender: #e6e6fa;
+            --color-cream: #fff9f5;
+            --color-text-main: #4a1525;
+            --color-text-muted: #7d4858;
+            --color-white: #ffffff;
+            --color-whatsapp: #25d366;
+            --color-whatsapp-hover: #1ebd59;
+            
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            
+            --shadow-soft: 0 10px 30px rgba(216, 27, 96, 0.12);
+            --shadow-card: 0 20px 40px rgba(74, 21, 37, 0.1);
+            --shadow-button: 0 8px 20px rgba(255, 105, 180, 0.3);
+            
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, var(--color-bg-gradient-1), var(--color-bg-gradient-2), var(--color-bg-gradient-3));
+            color: var(--color-text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================================================
+           2. Ambient Floating Background Particles
+           ========================================================================== */
+        .ambient-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            opacity: 0.6;
+            animation: floatParticle 12s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(105vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ==========================================================================
+           3. Stage Management & Layout
+           ========================================================================== */
+        .stage-container {
+            position: relative;
+            width: 100%;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 20px 60px 20px;
+            z-index: 1;
+        }
+
+        .stage {
+            position: absolute;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.98);
+            transition: var(--transition-smooth);
+            pointer-events: none;
+            padding: 10px 10px;
+        }
+
+        .stage.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        /* Typography & Common Elements */
+        h1, h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            color: var(--color-text-main);
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+            color: var(--color-text-muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            max-width: 480px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow-button);
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(216, 27, 96, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid var(--color-text-main);
+            outline-offset: 3px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text-muted);
+            border: 2px solid var(--color-blush);
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 15px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--color-text-main);
+            border-color: var(--color-primary);
+        }
+
+        /* ==========================================================================
+           STAGE 1: The Birthday Cake Styles (Fixed Layout & Spacing)
+           ========================================================================== */
+        .cake-scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .cake-scene h1 {
+            margin-bottom: 58px; /* Kept heading clean and separated from cake */
+        }
+
+        .cake-wrapper {
+            position: relative;
+            margin: 25px 0 20px;
+            filter: drop-shadow(0 12px 20px rgba(74, 21, 37, 0.15));
+            transform: scale(0.9);
+        }
+
+        .plate {
+            width: 240px;
+            height: 16px;
+            background: linear-gradient(to bottom, #e0e0e0, #bdbdbd);
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .cake-body {
+            position: relative;
+            width: 180px;
+            margin: 0 auto;
+        }
+
+        .layer {
+            position: relative;
+            background: linear-gradient(135deg, #ff9ebb, #ff6592);
+            border-radius: 12px 12px 4px 4px;
+            margin: 0 auto;
+            box-shadow: inset 0 -6px 12px rgba(0,0,0,0.08);
+        }
+
+        .layer-bottom {
+            width: 180px;
+            height: 50px;
+        }
+
+        .layer-top {
+            width: 130px;
+            height: 40px;
+            border-radius: 10px 10px 4px 4px;
+            margin-top: -4px;
+            background: linear-gradient(135deg, #ffaec6, #ff7fa4);
+        }
+
+        .frosting {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 16px;
+            background: var(--color-cream);
+            border-radius: 8px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.05);
+        }
+
+        .frosting-drip {
+            position: absolute;
+            top: 12px;
+            background: var(--color-cream);
+            width: 12px;
+            height: 16px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .frosting-drip:nth-child(1) { left: 18px; height: 20px; }
+        .frosting-drip:nth-child(2) { left: 48px; height: 14px; }
+        .frosting-drip:nth-child(3) { left: 78px; height: 22px; }
+        .frosting-drip:nth-child(4) { left: 108px; height: 16px; }
+
+        .candles-container {
+            position: absolute;
+            top: -38px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 20px;
+        }
+
+        .candle {
+            position: relative;
+            width: 10px;
+            height: 38px;
+            background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4081 5px, #ff4081 10px);
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .wick {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 5px;
+            background: #333;
+        }
+
+        .flame {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 18px;
+            background: linear-gradient(to top, #ff9800, #ffeb3b, #fff);
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 10px #ff9800, 0 0 16px #ffeb3b;
+            animation: flicker 1.2s infinite alternate ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) scale(1) rotate(-3deg);
+                opacity: 0.95;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.08) rotate(3deg);
+                opacity: 1;
+                box-shadow: 0 0 14px #ff9800, 0 0 22px #ffeb3b;
+            }
+            100% {
+                transform: translateX(-50%) scale(0.95) rotate(-2deg);
+                opacity: 0.9;
+            }
+        }
+
+        /* Extinguished flame state */
+        .candle.extinguished .flame {
+            animation: extinguishAnimation 0.6s forwards;
+        }
+
+        @keyframes extinguishAnimation {
+            0% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) scale(0.5) translateY(-4px);
+                opacity: 0.5;
+                background: #888;
+                box-shadow: none;
+            }
+            100% {
+                transform: translateX(-50%) scale(0) translateY(-8px);
+                opacity: 0;
+            }
+        }
+
+        /* Smoke wisps */
+        .smoke {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            filter: blur(3px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .candle.extinguished .smoke {
+            animation: riseSmoke 1.5s forwards ease-out;
+        }
+
+        @keyframes riseSmoke {
+            0% {
+                transform: translateX(-50%) translateY(0) scale(0.5);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateX(calc(-50% + 8px)) translateY(-20px) scale(1.4);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateX(calc(-50% - 8px)) translateY(-40px) scale(2.2);
+                opacity: 0;
+            }
+        }
+
+        /* ==========================================================================
+           STAGE 2: The Birthday Reveal Styles
+           ========================================================================== */
+        .reveal-scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .reveal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            animation: bounceIcon 2s infinite ease-in-out;
+        }
+
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .reveal-subtitle {
+            font-style: italic;
+            color: var(--color-primary-dark);
+            font-weight: 500;
+            margin-top: -5px;
+            margin-bottom: 20px;
+        }
+
+        /* Confetti Container */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--color-primary);
+            top: -10px;
+            opacity: 0.9;
+            animation: fallConfetti 3s linear forwards;
+        }
+
+        @keyframes fallConfetti {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(720deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        /* ==========================================================================
+           STAGE 3: The Secret Envelope Styles
+           ========================================================================== */
+        .envelope-scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 260px;
+            height: 165px;
+            background: #ffb6c1;
+            border-radius: 0 0 10px 10px;
+            box-shadow: var(--shadow-card);
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.03);
+        }
+
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff85a2, #ff69b4);
+            clip-path: polygon(0 30%, 50% 70%, 100% 30%, 100% 100%, 0 100%);
+            border-radius: 0 0 10px 10px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff9ebb;
+            clip-path: polygon(0 0, 50% 60%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 4;
+        }
+
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-seal {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary-dark);
+            color: var(--color-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 5;
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope-wrapper.open .envelope-seal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .letter-preview {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(0);
+            width: 220px;
+            height: 130px;
+            background: var(--color-cream);
+            border-radius: 6px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 2;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+        }
+
+        .envelope-wrapper.open .letter-preview {
+            transform: translateX(-50%) translateY(-60px);
+        }
+
+        /* ==========================================================================
+           STAGE 4: The Heartfelt Birthday Letter Styles
+           ========================================================================== */
+        .letter-scene {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .letter-card {
+            background: var(--color-cream);
+            background-image: radial-gradient(#ffb6c1 0.75px, transparent 0.75px);
+            background-size: 24px 24px;
+            border: 1px solid rgba(255, 182, 193, 0.5);
+            border-radius: 14px;
+            padding: 25px 20px;
+            box-shadow: var(--shadow-card);
+            text-align: left;
+            max-height: 52vh;
+            overflow-y: auto;
+            width: 100%;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .letter-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .letter-card::-webkit-scrollbar-thumb {
+            background: var(--color-blush);
+            border-radius: 10px;
+        }
+
+        .letter-content {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--color-text-main);
+            white-space: pre-line;
+        }
+
+        .letter-footer {
+            margin-top: 20px;
+            font-weight: 600;
+            color: var(--color-primary-dark);
+            text-align: right;
+        }
+
+        .letter-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .letter-prompt {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+
+        /* ==========================================================================
+           STAGE 5: WhatsApp Thank-You Surprise Styles
+           ========================================================================== */
+        .whatsapp-scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .whatsapp-badge {
+            width: 70px;
+            height: 70px;
+            background: var(--color-whatsapp);
+            color: var(--color-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+            animation: pulseWhatsApp 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseWhatsApp {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4); }
+            50% { transform: scale(1.08); box-shadow: 0 12px 25px rgba(37, 211, 102, 0.6); }
+        }
+
+        .whatsapp-btn {
+            background: var(--color-whatsapp);
+            color: var(--color-white);
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .whatsapp-btn:hover {
+            background: var(--color-whatsapp-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-note {
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            max-width: 340px;
+            margin-top: 12px;
+            line-height: 1.4;
+        }
+
+        /* ==========================================================================
+           Footer Styles (Fixed at bottom)
+           ========================================================== */
+        .site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 240, 245, 0.85);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 182, 193, 0.4);
+            padding: 10px 15px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            z-index: 999;
+            box-shadow: 0 -4px 15px rgba(216, 27, 96, 0.05);
+        }
+
+        .site-footer a {
+            color: var(--color-primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .site-footer a:hover {
+            text-decoration: underline;
+            color: var(--color-primary);
+        }
+
+        /* ==========================================================================
+           Accessibility & Responsive Adjustments
+           ========================================================== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stage-container {
+                padding: 10px 10px 55px 10px;
+            }
+            .letter-card {
+                padding: 18px 15px;
+                max-height: 48vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Configuration Section & Instructions (Hidden from UI, inspectable code) -->
+    <!-- 
+      CONFIGURATION GUIDE:
+      1. Sister's Name: Referenced as "Didi" throughout the text.
+      2. WhatsApp Number: Edit WHATSAPP_PHONE constant in script below (format: country code + digits, e.g., "91XXXXXXXXXX").
+      3. WhatsApp Message: Edit WHATSAPP_MESSAGE constant below.
+      4. Letter Content: Edit LETTER_TEXT constant below.
+    -->
+
+    <!-- Ambient Background Floating Particles -->
+    <div class="ambient-particles" id="ambientParticles" aria-hidden="true"></div>
+
+    <!-- Hidden Audio Element (Plays on first click and loops automatically) -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="Happy Birthday Instrumental 🎂💕🎼.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Screen Reader Live Region for Stage Announcements -->
+    <div id="srAnnouncer" class="sr-only" aria-live="polite" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;"></div>
+
+    <!-- Main Container holding all 5 stages -->
+    <main class="stage-container">
+
+        <!-- ================= STAGE 1: The Birthday Cake ================= -->
+        <section id="stage1" class="stage active" aria-labelledby="stage1-heading">
+            <div class="cake-scene">
+                <h1 id="stage1-heading">Blow Out the Candles!</h1>
+                
+                <div class="cake-wrapper" aria-label="Birthday cake with 3 flickering candles">
+                    <div class="candles-container">
+                        <div class="candle" id="candle1">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                            <div class="smoke"></div>
+                        </div>
+                        <div class="candle" id="candle2">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                            <div class="smoke"></div>
+                        </div>
+                        <div class="candle" id="candle3">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                            <div class="smoke"></div>
+                        </div>
+                    </div>
+                    <div class="cake-body">
+                        <div class="layer layer-top">
+                            <div class="frosting">
+                                <div class="frosting-drip"></div>
+                                <div class="frosting-drip"></div>
+                                <div class="frosting-drip"></div>
+                                <div class="frosting-drip"></div>
+                            </div>
+                        </div>
+                        <div class="layer layer-bottom">
+                            <div class="frosting">
+                                <div class="frosting-drip"></div>
+                                <div class="frosting-drip"></div>
+                                <div class="frosting-drip"></div>
+                                <div class="frosting-drip"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plate"></div>
+                </div>
+
+                <button id="blowCandlesBtn" class="btn-primary" style="margin-top: 10px;">
+                    Click Here To Proceed 🕯️
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STAGE 2: The Birthday Reveal ================= -->
+        <section id="stage2" class="stage" aria-labelledby="stage2-heading">
+            <div class="reveal-scene">
+                <div class="reveal-icon" aria-hidden="true">💖</div>
+                <h1 id="stage2-heading">Happy Birthday, Didi! 💗</h1>
+
+                <p class="reveal-subtitle">You deserve all the love, laughter, and beautiful moments in the world.</p>
+                
+                <button id="openMessageBtn" class="btn-primary">
+                    Open Your Secret Message 💌
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STAGE 3: The Secret Envelope ================= -->
+        <section id="stage3" class="stage" aria-labelledby="stage3-heading">
+            <div class="envelope-scene">
+                <h1 id="stage3-heading">A Special Delivery</h1>
+    
+                
+                <div id="envelopeWrapper" class="envelope-wrapper" role="button" tabindex="0" aria-label="Interactive envelope. Click or press Enter to open letter">
+                    <div class="envelope-flap"></div>
+                    <div class="letter-preview">
+                        <div style="font-size: 0.75rem; color: var(--color-primary-dark); font-weight: bold; margin-bottom: 4px;">To My Dearest Didi ❤</div>
+                        <div style="font-size: 0.65rem; color: var(--color-text-muted); line-height: 1.3;">Today is your day... click below to read the complete letter!</div>
+                    </div>
+                    <div class="envelope-pocket"></div>
+                    <div class="envelope-seal" aria-hidden="true">💌</div>
+                </div>
+
+                <button id="openLetterBtn" class="btn-primary">
+                    Open Your Letter 💌
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STAGE 4: The Heartfelt Birthday Letter ================= -->
+        <section id="stage4" class="stage" aria-labelledby="stage4-heading">
+            <div class="letter-scene">
+                <h1 id="stage4-heading" style="font-size: 1.35rem; margin-bottom: 3px;">A Little Letter From My Heart 💗</h1>
+                
+                <div class="letter-card" tabindex="0">
+                    <div id="letterContent" class="letter-content"></div>
+                    <div class="letter-footer">
+                        With lots of love,<br>
+                        Your little brother ❤️
+                    </div>
+                </div>
+
+                <div class="letter-actions">
+                    <span class="letter-prompt">One last little thing before you go… 💕</span>
+                    <button id="proceedThankYouBtn" class="btn-primary">
+                        Send a Little Thank You 💚
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STAGE 5: WhatsApp Thank-You Surprise ================= -->
+        <section id="stage5" class="stage" aria-labelledby="stage5-heading">
+            <div class="whatsapp-scene">
+                <div class="whatsapp-badge" aria-hidden="true">💬</div>
+                <h1 id="stage5-heading">A Surprise From Your Little Brother 💗</h1>
+                <p>If this little surprise made you smile, you can send me a tiny thank-you message!</p>
+                
+                <button id="whatsappBtn" class="whatsapp-btn">
+                    <span>Send Thank You on WhatsApp</span>
+                </button>
+                
+                <p class="whatsapp-note">
+                    Clicking this will open WhatsApp with your pre-filled message ready to send!
+                </p>
+
+                <button id="replayBtn" class="btn-secondary">
+                    Replay the Birthday Surprise ↻
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer with Developer Credit -->
+    <footer class="site-footer">
+        Made with ❤ by <a href="https://devrohitx.netlify.app/" target="_blank" rel="noopener noreferrer">Developer Rohit</a>
+    </footer>
+
+    <!-- Confetti Container -->
+    <div id="confettiContainer" class="confetti-container" aria-hidden="true"></div>
+
+    <!-- ==========================================================================
+       JavaScript Application Logic
+       ========================================================================== -->
+    <script>
+        /* ==========================================================
+           CONFIGURATION SECTION (Editable before deployment)
+           ========================================================== */
+        const WHATSAPP_PHONE = "9201424412"; // Replace with your actual WhatsApp phone number (country code + digits, no + or spaces)
+        const WHATSAPP_MESSAGE = "Thank you, bhai, for this beautiful birthday surprise!";
+        
+        const LETTER_TEXT = `My Dearest Didi, ❤️
+
+Happy Birthday to one of the most special people in my life!
+
+Today is your day, and I just want you to know how much you mean to me. Sometimes, words are not enough to express how grateful I am to have you as my sister.
+
+Thank you for being a part of my life, for the little moments we share, for your care, and for all the memories that make our bond so special.
+
+No matter how much we grow up or how busy life becomes, you will always have a special place in my heart. I genuinely wish that your life is filled with happiness, peace, good health, success, and countless reasons to smile.
+
+May every dream you carry in your heart slowly turn into reality. May you always find strength when life gets difficult, laughter on ordinary days, and people who love you as much as you deserve.
+
+I might not say it every day, but I am truly lucky to have you as my Didi. You deserve all the beautiful things this world has to offer.
+
+Today, I hope this little surprise brings a smile to your face, because making you smile is a beautiful gift in itself.
+
+Keep smiling, keep shining, and always remember how precious you are to me.
+
+Happy Birthday once again, Didi! 🎂💗`;
+
+        /* ==========================================================
+           Application State & DOM Elements
+           ========================================================== */
+        let currentStage = 1;
+        let isTransitioning = false;
+        let audioStarted = false;
+
+        const bgAudio = document.getElementById('bgAudio');
+        const srAnnouncer = document.getElementById('srAnnouncer');
+
+        // Populate Letter Content securely using textContent
+        document.getElementById('letterContent').textContent = LETTER_TEXT;
+
+        /* ==========================================================
+           Ambient Particles Generator
+           ========================================================== */
+        function initAmbientParticles() {
+            const container = document.getElementById('ambientParticles');
+            const particleCount = 20;
+            const symbols = ['✨', '💖', '⭐', '🌸', '🤍'];
+
+            for (let i = 0; i < particleCount; i++) {
+                const span = document.createElement('span');
+                span.className = 'particle';
+                span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                span.style.left = `${Math.random() * 100}vw`;
+                span.style.fontSize = `${Math.random() * 12 + 10}px`;
+                span.style.animationDuration = `${Math.random() * 8 + 8}s`;
+                span.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(span);
+            }
+        }
+
+        /* ==========================================================
+           Stage Navigation Controller
+           ========================================================== */
+        function showStage(stageNumber) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            const prevStageEl = document.getElementById(`stage${currentStage}`);
+            const nextStageEl = document.getElementById(`stage${stageNumber}`);
+
+            if (!nextStageEl) {
+                isTransitioning = false;
+                return;
+            }
+
+            prevStageEl.classList.remove('active');
+            
+            setTimeout(() => {
+                nextStageEl.classList.add('active');
+                currentStage = stageNumber;
+                isTransitioning = false;
+
+                // Accessibility announcement
+                const headingEl = nextStageEl.querySelector('h1');
+                if (headingEl) {
+                    srAnnouncer.textContent = `Now viewing: ${headingEl.textContent}`;
+                }
+
+                // Stage-specific entry actions
+                if (stageNumber === 2) {
+                    createConfetti();
+                }
+            }, 400);
+        }
+
+        /* ==========================================================
+           STAGE 1: Blow Out Candles Logic & Music Trigger
+           ========================================================== */
+        const blowCandlesBtn = document.getElementById('blowCandlesBtn');
+        blowCandlesBtn.addEventListener('click', blowOutCandles);
+
+        function blowOutCandles() {
+            if (isTransitioning) return;
+
+            // Start background music automatically on the very first click if not already started
+            if (!audioStarted) {
+                bgAudio.play().then(() => {
+                    audioStarted = true;
+                }).catch(error => {
+                    console.warn("Audio playback was restricted or file missing:", error);
+                });
+            }
+
+            const candles = document.querySelectorAll('.candle');
+            candles.forEach(candle => {
+                candle.classList.add('extinguished');
+            });
+
+            blowCandlesBtn.disabled = true;
+            blowCandlesBtn.style.opacity = '0.6';
+            blowCandlesBtn.textContent = 'Wishes Made! ✨';
+
+            // Wait for extinguishing animation & smoke, then transition to Stage 2
+            setTimeout(() => {
+                showStage(2);
+            }, 1800);
+        }
+
+        /* ==========================================================
+           STAGE 2: Confetti Effect & Reveal
+           ========================================================== */
+        const openMessageBtn = document.getElementById('openMessageBtn');
+        openMessageBtn.addEventListener('click', () => {
+            showStage(3);
+        });
+
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#ff69b4', '#ffb6c1', '#ff1493', '#ffd700', '#ffffff', '#ff85a2'];
+            const count = 60;
+
+            for (let i = 0; i < count; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = `${Math.random() * 100}vw`;
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.width = `${Math.random() * 8 + 6}px`;
+                piece.style.height = `${Math.random() * 8 + 6}px`;
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%': '2px';
+                piece.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                piece.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                container.appendChild(piece);
+
+                // Clean up confetti element after animation finishes
+                setTimeout(() => {
+                    piece.remove();
+                }, 4000);
+            }
+        }
+
+        /* ==========================================================
+           STAGE 3: Secret Envelope Interaction
+           ========================================================== */
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const openLetterBtn = document.getElementById('openLetterBtn');
+
+        envelopeWrapper.addEventListener('click', triggerEnvelopeOpen);
+        envelopeWrapper.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                triggerEnvelopeOpen();
+            }
+        });
+
+        openLetterBtn.addEventListener('click', triggerEnvelopeOpen);
+
+        function triggerEnvelopeOpen() {
+            if (isTransitioning) return;
+            
+            envelopeWrapper.classList.add('open');
+            openLetterBtn.style.display = 'none';
+
+            // Transition to Stage 4 after envelope opens and letter emerges
+            setTimeout(() => {
+                showStage(4);
+            }, 1200);
+        }
+
+        /* ==========================================================
+           STAGE 4: Letter to Stage 5
+           ========================================================== */
+        const proceedThankYouBtn = document.getElementById('proceedThankYouBtn');
+        proceedThankYouBtn.addEventListener('click', () => {
+            showStage(5);
+        });
+
+        /* ==========================================================
+           STAGE 5: WhatsApp Integration & Replay
+           ========================================================== */
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const replayBtn = document.getElementById('replayBtn');
+
+        whatsappBtn.addEventListener('click', openWhatsApp);
+        replayBtn.addEventListener('click', resetExperience);
+
+        function openWhatsApp() {
+            // Check if phone number is configured properly
+            if (!WHATSAPP_PHONE || WHATSAPP_PHONE.includes('X')) {
+                alert("Please configure your WhatsApp phone number in the JavaScript configuration section before sending!");
+                return;
+            }
+
+            const encodedMessage = encodeURIComponent(WHATSAPP_MESSAGE);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function resetExperience() {
+            if (isTransitioning) return;
+
+            // Reset Stage 1 Candle states
+            const candles = document.querySelectorAll('.candle');
+            candles.forEach(candle => {
+                candle.classList.remove('extinguished');
+            });
+            blowCandlesBtn.disabled = false;
+            blowCandlesBtn.style.opacity = '1';
+            blowCandlesBtn.textContent = 'Click Here To Proceed 🕯️';
+
+            // Reset Envelope state
+            envelopeWrapper.classList.remove('open');
+            openLetterBtn.style.display = 'inline-flex';
+
+            // Return to Stage 1 smoothly
+            showStage(1);
+        }
+
+        // Initialize ambient particles on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initAmbientParticles();
+        });
+    </script>
+</body>
+</html>
